@@ -47,8 +47,8 @@ class bracket_logic():
         if self.bye_round: ##bye round (2)
             print("ROUND 2")
             bye_teams = [team for team in self.contenders if team not in temp]
-            left_byes = bye_teams[:len(bye_teams)/2]
-            right_byes = bye_teams[len(bye_teams)/2:]
+            left_byes = bye_teams[:int(len(bye_teams)/2)]
+            right_byes = bye_teams[int(len(bye_teams)/2):]
             
             print("temp:", [i.team_to_str() for i in temp])
             
@@ -57,22 +57,28 @@ class bracket_logic():
             round2_right = []
             
             while(len(temp) !=0):
-                round2_left.append(left_byes.pop[0])
-                round2_left.append(temp.pop[0])
+                
+                round2_left.append(left_byes.pop(0))
+                round2_left.append(temp.pop(0))
 
-                round2_right.append(right_byes.pop[0])
+                round2_right.append(right_byes.pop(0))
 
                 try:
-                    round2_right.append(temp.pop[0])
+                    round2_right.append(temp.pop(0))
                 except:
                     pass
+                print("LEFT SIDE", [i.team_to_str() for i in round2_left])
+                print("RIGHT SIDE", [i.team_to_str() for i in round2_right])
+                print("What's left in temp:", [i.team_to_str() for i in temp])
+
+                
+                
+            for i in left_byes:
+                round2_left.append(i)
+            for i in right_byes:
+                round2_right.append(i)
 
             self.current_round = round2_left + round2_right
-                
-                
-            for i in temp2:
-                self.current_round.append(i)
-
             self.bye_round = False
 
                 
@@ -116,6 +122,7 @@ class bracket_logic():
         for i in self.teams:
             if team == i.name:
                 return i
+    
 
         
         
