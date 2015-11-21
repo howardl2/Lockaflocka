@@ -10,8 +10,12 @@ Team3 = Team('Team3', '', [], '', 0, 0)
 Team4 = Team('Team4', '', [], '', 0, 0)
 Team5 = Team('Team5', '', [], '', 0, 0)
 Team6 = Team('Team6', '', [], '', 0, 0)
+Team7 = Team('Team7', '', [], '', 0, 0)
+Team8 = Team('Team8', '', [], '', 0, 0)
+Team9 = Team('Team9', '', [], '', 0, 0)
+Team10 = Team('Team10', '', [], '', 0, 0)
 
-contenders = [Team1, Team2, Team3, Team4, Team5, Team6]
+contenders = [Team1, Team2, Team3, Team4, Team5, Team6, Team7, Team8, Team9, Team10]
 
 
 
@@ -25,6 +29,7 @@ class bracket_logic():
                   self.contenders = teams
                   self.losers = []
                   self.current_round = []
+                  self.bye_round = False
 
 ##sets the people in the current round
 
@@ -32,21 +37,57 @@ class bracket_logic():
     def pairings(self):
         byes = 0
         power = 2
+        temp = list(self.current_round)
+        
         self.current_round = []
+        
 ##if seedings then sort
 ##if none then shuffle
+        print(self.bye_round)
+        if self.bye_round: ##bye round (2)
+            print("ROUND 2")
+            temp2 = [team for team in self.contenders if team not in temp]
+            
+            print("temp:", [i.team_to_str() for i in temp])
+            print("temp2:", [i.team_to_str() for i in temp2])
+            
+            count = 0
+            
+            while(len(temp) !=0):
+    
+                self.current_round.append(temp.pop(0))
+                self.current_round.append(temp2.pop(0))
+                
+                print(temp)
+                
+            for i in temp2:
+                self.current_round.append(i)
+
+            self.bye_round = False
+
+                
         
-        if(len(self.contenders) == len(self.teams)):       
+        elif len(self.contenders) == len(self.teams): ##first round
+            print("ROUND 1")
             shuffle(self.contenders)
             
             while(power <= len(self.contenders)):
                 power = power*2
                 byes = power - len(self.contenders)
-        
-        for i in range(len(self.contenders) - byes):
-            self.current_round.append(self.contenders[-i])
-            
-        for i in range(len(self.current_round)):
+
+            for i in range(len(self.contenders) - byes):
+                print([i.team_to_str() for i in test.current_round])
+                self.current_round.append(self.contenders[i])
+
+            self.bye_round = True
+
+
+        else: ##all other rounds
+            for i in range(len(self.contenders) - byes):
+                print([i.team_to_str() for i in test.current_round])
+                self.current_round.append(self.contenders[i])
+                
+        for i in range(len(self.current_round)): ##assign opponents
             if i % 2 == 0:
                 self.current_round[i].opponent = self.current_round[i+1]
             else:
@@ -71,20 +112,33 @@ class bracket_logic():
 
 
 if __name__ == '__main__':
-    test = bracket(6, contenders, 'single elimination')
-    print([i.team_to_str() for i in test.teams])
+    
+    test = bracket_logic(10, contenders, 'single elimination')
+    
+    print("teams", [i.team_to_str() for i in test.teams])
     while(len(test.contenders) !=1):
-        print([i.team_to_str() for i in test.current_round])
-        print([i.team_to_str() for i in test.contenders])
+        
+        print("current", [i.team_to_str() for i in test.current_round])
+        print("contenders", [i.team_to_str() for i in test.contenders])
+        
         test.pairings()
-        test.update(test.get_team('Team1'), '3-2')
-        test.update(test.get_team('Team2'), '3-2')
-        test.update(test.get_team('Team3'), '3-2')
-        test.update(test.get_team('Team4'), '3-2')
-        test.update(test.get_team('Team5'), '3-2')
-        test.update(test.get_team('Team6'), '3-2')
-        print([i.team_to_str() for i in test.current_round])
-        print([i.team_to_str() for i in test.contenders])
+        
+        print("current", [i.team_to_str() for i in test.current_round])
+        print("contenders", [i.team_to_str() for i in test.contenders])
+        
+        for i in test.teams:
+            test.update( i , '3-2')
+
+##        test.update(test.get_team("Team1"),'3-2')
+##        test.update(test.get_team("Team2"),'3-2')
+##        test.update(test.get_team("Team3"),'3-2')
+##        test.update(test.get_team("Team4"),'3-2')
+##        test.update(test.get_team("Team5"),'3-2')
+##        test.update(test.get_team("Team6"),'3-2')
+
+        
+        print("current", [i.team_to_str() for i in test.current_round])
+        print("contenders", [i.team_to_str() for i in test.contenders])
         
  
     
