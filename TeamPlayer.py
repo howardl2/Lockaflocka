@@ -25,12 +25,12 @@ class TeamPlayerApplication:
         
         #add player button
         add_player_button = tkinter.Button(
-            master = self._root_window, text = 'Add Player', font = DEFAULT_FONT,
+            master = self._root_window, text = 'Add Player', font = DEFAULT_FONT,fg="#00006c",
             command = self._on_greet)
 
         add_player_button.grid(
             row = 2, column = 0, padx = 10, pady = 10,
-            sticky = tkinter.S + tkinter.W)
+            sticky = tkinter.S + tkinter.W + tkinter.E )
         
         #team select option menu
         self._teamOption = tkinter.StringVar(self._root_window)
@@ -41,18 +41,18 @@ class TeamPlayerApplication:
         
         #create new team button
         create_team_button = tkinter.Button(master = self._root_window, text = "Create Team", 
-            font = DEFAULT_FONT, command = self._on_create_team)
+            font = DEFAULT_FONT,fg="#00006c", command = self._on_create_team)
         create_team_button.grid(
             row = 1, column = 0, padx = 10, pady = 10,
-            sticky = tkinter.N +tkinter.W)
+            sticky = tkinter.N +tkinter.W + tkinter.E )
         
         #display players of selected team button
         display_players_button = tkinter.Button(master = self._root_window, text = "Display Players",
-                                                font = DEFAULT_FONT, command = self._on_display_players)
+                                                font = DEFAULT_FONT, fg="#00006c", command = self._on_display_players)
         
         display_players_button.grid(
             row = 3, column = 0, padx = 10, pady = 10,
-            sticky = tkinter.N +tkinter.W)
+            sticky = tkinter.N +tkinter.W + tkinter.E )
         
         #display number of teams text
         self._num_teams_text = tkinter.StringVar()
@@ -61,11 +61,11 @@ class TeamPlayerApplication:
         #display number of teams label
         self._num_teams_label = tkinter.Label(
             master = self._root_window, textvariable = self._num_teams_text,
-            font = DEFAULT_FONT)
+            font = DEFAULT_FONT, fg="#00006c")
 
         self._num_teams_label.grid(
             row = 4, column = 0, padx = 10, pady = 10,
-            sticky = tkinter.N + tkinter.W )
+            sticky = tkinter.N + tkinter.W + tkinter.E )
 
         self._root_window.rowconfigure(0, weight = 1)
         self._root_window.rowconfigure(4, weight = 1)
@@ -107,7 +107,7 @@ class TeamPlayerApplication:
         self._teamOptionMenu = tkinter.OptionMenu(self._root_window, self._teamOption, 
                                               *teamNames)
         self._teamOptionMenu.grid(row = 0, column = 0, padx = 10, 
-                        pady = 10, sticky = tkinter.N + tkinter.W)
+                        pady = 10, sticky = tkinter.N + tkinter.W + tkinter.E )
         
         self._num_teams_label.destroy()
         self._num_teams_text = tkinter.StringVar()
@@ -115,18 +115,14 @@ class TeamPlayerApplication:
         
         self._num_teams_label = tkinter.Label(
             master = self._root_window, textvariable = self._num_teams_text,
-            font = DEFAULT_FONT)
+            font = DEFAULT_FONT, bg = "white", fg="#00006c")
 
         self._num_teams_label.grid(
             row = 4, column = 0, padx = 10, pady = 10,
-            sticky = tkinter.N + tkinter.W )
+            sticky = tkinter.N + tkinter.W + tkinter.E )
 
         
         
         self._root_window.rowconfigure(0, weight = 1)
         self._root_window.rowconfigure(2, weight = 1)
         self._root_window.columnconfigure(1, weight = 1)
-     
-
-    
-    
