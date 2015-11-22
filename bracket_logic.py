@@ -15,7 +15,7 @@ Team8 = Team('Team8', '', [], '', 0, 0)
 Team9 = Team('Team9', '', [], '', 0, 0)
 Team10 = Team('Team10', '', [], '', 0, 0)
 
-contenders = [Team1, Team2, Team3, Team4, Team5, Team6, Team7, Team8, Team9, Team10]
+contenders = [Team1, Team2, Team3, Team4]#, Team5, Team6, Team7, Team8, Team9, Team10]
 
 
 
@@ -55,19 +55,20 @@ class bracket_logic():
             print("ROUND 1")
             shuffle(self.contenders)
             
-            while(power <= len(self.contenders)):
+            while(power < len(self.contenders)):
                 power = power*2
-                byes = power - len(self.contenders)
+            byes = power - len(self.contenders)
 
             for i in range(len(self.contenders) - byes):
                 self.current_round.append(self.contenders[i])
+            print("POWER:", power, "BYES:",byes, "CONTENDERS", len(self.contenders))
 
             self.bye_round = True
 
 
         else: ##all other rounds
             for i in range(len(self.contenders) - byes):
-                print([i.team_to_str() for i in test.current_round])
+                print('current', [i.team_to_str() for i in self.current_round])
                 self.current_round.append(self.contenders[i])
                 
         for i in range(len(self.current_round)): ##assign opponents
@@ -92,9 +93,21 @@ class bracket_logic():
 
     def gui_format(self, current: list, contenders: list):
         current_gui = self.bracket_split(self.current_round, self.contenders, "gui")
-        print([i.team_to_str for i in current_gui])
-
         
+
+    def gui_pairing(self, current: list, contenders: list):
+        byes = 0
+        power = 2
+        temp = list(current)
+        print("LENGTH TEMP: ", str(len(temp)))
+        temp = temp[::2]
+
+        for i in range(len(temp)): ##assign opponents
+            try:
+                temp[i].opponent = temp[i+1]
+            except:
+                temp[i].opponent = temp[i-1]
+        return temp
 
     def bracket_split(self, current: list, contenders: list, split_type: str):
         
@@ -136,6 +149,7 @@ class bracket_logic():
             
             
         return (round2_left + round2_right)
+    
         
         
     
@@ -146,7 +160,7 @@ class bracket_logic():
 
 if __name__ == '__main__':
     
-    test = bracket_logic(10, contenders, 'single elimination')
+    test = bracket_logic(4, contenders, 'single elimination')
     
     print("teams", [i.team_to_str() for i in test.teams])
     test.pairings()
@@ -168,7 +182,8 @@ if __name__ == '__main__':
         
         print("current", [i.team_to_str() for i in test.current_round])
         print("contenders", [i.team_to_str() for i in test.contenders])
-        
+
+        test.teams.reverse()
         for i in test.teams:
             test.update( i , (3, 2))
 
