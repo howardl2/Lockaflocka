@@ -1,6 +1,9 @@
 # TeamPlayer.py
 
 
+# TeamPlayer.py
+
+
 import tkinter
 import TeamPlayerDecs
 import TeamDialog
@@ -15,8 +18,10 @@ DEFAULT_FONT = ('Helvetica', 14)
 # GreetingsApplication is the root window - main one
 # Can Select team, create team, add player, display players
 class TeamPlayerApplication:
-    def __init__(self):
+    def __init__(self, list_of_teams, roster_list):
         self._root_window = tkinter.Tk()
+        self._listOfTeams = list_of_teams
+        self._roster_list = roster_list
         
         #add player button
         add_player_button = tkinter.Button(
@@ -51,7 +56,7 @@ class TeamPlayerApplication:
         
         #display number of teams text
         self._num_teams_text = tkinter.StringVar()
-        self._num_teams_text.set('Number of teams: '+ str(len(listOfTeams)))
+        self._num_teams_text.set('Number of teams: '+ str(len(self._listOfTeams)))
 
         #display number of teams label
         self._num_teams_label = tkinter.Label(
@@ -72,21 +77,21 @@ class TeamPlayerApplication:
         
         
     def _on_display_players(self):
-        display_players = DisplayPlayersDialog.DisplayPlayersDialog(self._teamOption.get(), listOfTeams)
+        display_players = DisplayPlayersDialog.DisplayPlayersDialog(self._teamOption.get(), self._listOfTeams)
         display_players.show()
 
 
 
     def _on_greet(self) -> None:
         team_name = self._teamOption.get()
-        dialog = PlayerDialog.PlayerDialog(team_name,listOfTeams, rosterList)
+        dialog = PlayerDialog.PlayerDialog(team_name,self._listOfTeams, self._roster_list)
         dialog.show()
 #         self._num_teams_text.set('Successfully Added: {}|{}|{}|{}'.format(team_name, dialog.get_first_name(),
 #             dialog.get_age(), dialog.get_position()))
         self.update()
         
     def _on_create_team(self):
-        create_team_dialog = TeamDialog.TeamDialog(listOfTeams)
+        create_team_dialog = TeamDialog.TeamDialog(self._listOfTeams)
         create_team_dialog.show()
         self.update()
         
@@ -97,7 +102,7 @@ class TeamPlayerApplication:
         self._teamOption = tkinter.StringVar(self._root_window)
         self._teamOption.set("Select Team")
         teamNames = []
-        for team in listOfTeams:
+        for team in self._listOfTeams:
             teamNames.append(team.team_to_str())
         self._teamOptionMenu = tkinter.OptionMenu(self._root_window, self._teamOption, 
                                               *teamNames)
@@ -106,7 +111,7 @@ class TeamPlayerApplication:
         
         self._num_teams_label.destroy()
         self._num_teams_text = tkinter.StringVar()
-        self._num_teams_text.set('Number of teams: ' + str(len(listOfTeams)))
+        self._num_teams_text.set('Number of teams: ' + str(len(self._listOfTeams)))
         
         self._num_teams_label = tkinter.Label(
             master = self._root_window, textvariable = self._num_teams_text,
@@ -122,14 +127,6 @@ class TeamPlayerApplication:
         self._root_window.rowconfigure(2, weight = 1)
         self._root_window.columnconfigure(1, weight = 1)
      
-        
-if __name__ == '__main__':
-    listOfTeams = []
-    rosterList = []
-    
-    TeamPlayerApplication().start()
- 
-    numTeams = len(listOfTeams)
-    print("number of teams: " + str(numTeams))
+
     
     
