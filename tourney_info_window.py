@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter.ttk import *
 from tkinter.colorchooser import *
 import tkinter.font
+import TeamPlayer
 
 
 class main_canvas:
@@ -75,7 +76,8 @@ class main_canvas:
             print("Game type:", saved_game.get())
             print("Series type:", saved_series.get())
             print("Finals series type:", saved_final.get())
-            self.root_window.quit()
+#             self.root_window.quit()
+            self.root_window.destroy()
         test = Button(self.root_window, text = "TEST", command = get_entries)
         test.grid(row = 5, ipadx = 20, column = 1, sticky = 'w')
         '''
@@ -128,4 +130,11 @@ class main_canvas:
 
 if __name__ == '__main__':
     main_canvas().start()
+    listOfTeams = []
+    rosterList = []
+    
+    TeamPlayer.TeamPlayerApplication(listOfTeams, rosterList).start()
+ 
+    numTeams = len(listOfTeams)
+    print("number of teams: " + str(numTeams))
     
