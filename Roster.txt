@@ -1,0 +1,4 @@
+Player(team='Select Team', name='Aaron', age='1', position='1')
+Player(team='Team1', name='Aaron', age='18', position='top')
+Player(team='Select Team', name='a', age='a', position='a')
+Player(team='fsaadsf', name='aa', age='a', position='a')

@@ -3,7 +3,8 @@ from tkinter.ttk import *
 from tkinter.colorchooser import *
 import tkinter.font
 import TeamPlayer
-
+import bracket_gui
+import bracket_logic
 
 class main_canvas:
     def __init__(self):
@@ -26,11 +27,11 @@ class main_canvas:
        
     ###Create text boxes###
         ##Tournament type##
-        saved_tourney = StringVar(self.root_window)
-        saved_tourney.set("Single Elimination")
+        self.saved_tourney = StringVar(self.root_window)
+        self.saved_tourney.set("Single Elimination")
         tourney_label = Label(self.root_window, text = "Tournament style: ", style = "Label", font = bold_font)
         tourney_label.grid(row = 0, column = 0)
-        tourney_entry = OptionMenu(self.root_window, saved_tourney, "Single Elimination", \
+        tourney_entry = OptionMenu(self.root_window, self.saved_tourney, "Single Elimination", \
                                    "Single Elimination", "Double Elimination", "Round Robin")
         tourney_entry.config(width = 20)
         tourney_entry["menu"].config(fg="#169ea9", font = dropdown_font)
@@ -72,7 +73,7 @@ class main_canvas:
         final_entry.grid(row = 3, column = 1)
         
         def get_entries():
-            print("Tournament type:", saved_tourney.get())
+            print("Tournament type:", self.saved_tourney.get())
             print("Game type:", saved_game.get())
             print("Series type:", saved_series.get())
             print("Finals series type:", saved_final.get())
@@ -108,7 +109,7 @@ class main_canvas:
         
 
     def get_tourney_type(self):
-        return saved_tourney.get()
+        return self.saved_tourney.get()
 
     def get_game_type(self):
         return saved_game.get()
@@ -129,7 +130,8 @@ class main_canvas:
 
 
 if __name__ == '__main__':
-    main_canvas().start()
+    tourney = main_canvas()
+    tourney.start()
     listOfTeams = []
     rosterList = []
     
@@ -138,3 +140,23 @@ if __name__ == '__main__':
     numTeams = len(listOfTeams)
     print("number of teams: " + str(numTeams))
     
+    bracket = bracket_gui.Bracket(numTeams, tourney.get_tourney_type(), listOfTeams)
+    logic = bracket_logic.bracket_logic(numTeams, listOfTeams, tourney.get_tourney_type())
+    bracket.start()
+    
+##    while(len(logic.contenders) !=1):
+##        print("LOOPED")        
+##        logic.teams.reverse()
+##        teams = len(logic.current_round)
+##        
+##        while(len(logic.current_round) >= teams/2):
+##            winner = input("Please type the name of the team that won: ")
+##            record = input("Please type the record of the matches (Ex: (3, 2)) ")
+##            if (logic.get_team(winner) not in logic.current_round):
+##                winner = input("Please type the name of the team that won: ")
+##    
+##            logic.update(logic.get_team(winner), record)
+##            bracket.update(logic.get_team(winner), record)
+##        logic.pairings()
+
+            

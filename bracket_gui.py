@@ -4,7 +4,7 @@ from team_class import *
 import math
 
 class Bracket:
-        def __init__(self, num_teams:int, tournament_type:int , teams:list):
+        def __init__(self, num_teams:int, tournament_type:str , teams:list):
                 self.teams = teams
                 self.num_teams = num_teams
                 self.tournament_type = tournament_type
@@ -158,7 +158,7 @@ class Bracket:
 
                 
 
-        def update(self, winner):
+        def update(self, winner, score):
                 data = None
                 for i in self.rectangle_data:
                         if winner == i[2]:

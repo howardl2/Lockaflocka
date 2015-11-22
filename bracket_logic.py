@@ -4,19 +4,6 @@ from random import shuffle
 from team_class import *
 
 
-Team1 = Team('Team1', '', [], '', 0, 0)
-Team2 = Team('Team2', '', [], '', 0, 0)
-Team3 = Team('Team3', '', [], '', 0, 0)
-Team4 = Team('Team4', '', [], '', 0, 0)
-Team5 = Team('Team5', '', [], '', 0, 0)
-Team6 = Team('Team6', '', [], '', 0, 0)
-Team7 = Team('Team7', '', [], '', 0, 0)
-Team8 = Team('Team8', '', [], '', 0, 0)
-Team9 = Team('Team9', '', [], '', 0, 0)
-Team10 = Team('Team10', '', [], '', 0, 0)
-
-contenders = [Team1, Team2, Team3, Team4]#, Team5, Team6, Team7, Team8, Team9, Team10]
-
 
 
         
@@ -61,7 +48,6 @@ class bracket_logic():
 
             for i in range(len(self.contenders) - byes):
                 self.current_round.append(self.contenders[i])
-            print("POWER:", power, "BYES:",byes, "CONTENDERS", len(self.contenders))
 
             self.bye_round = True
 
@@ -72,9 +58,10 @@ class bracket_logic():
                 self.current_round.append(self.contenders[i])
                 
         for i in range(len(self.current_round)): ##assign opponents
-            if i % 2 == 0:
+            print("hello")
+            try:
                 self.current_round[i].opponent = self.current_round[i+1]
-            else:
+            except:
                 self.current_round[i].opponent = self.current_round[i-1]
 
     def update(self, winner:Team , score: tuple):
@@ -84,7 +71,7 @@ class bracket_logic():
             self.current_round.remove(winner.opponent)
             self.contenders.remove(winner.opponent)
         else:
-            print('ya fucked up')
+            print('Team no longer applicable')
 
     def get_team(self, team:str):
         for i in self.teams:
@@ -99,7 +86,6 @@ class bracket_logic():
         byes = 0
         power = 2
         temp = list(current)
-        print("LENGTH TEMP: ", str(len(temp)))
         temp = temp[::2]
 
         for i in range(len(temp)): ##assign opponents
@@ -174,30 +160,20 @@ if __name__ == '__main__':
     
     while(len(test.contenders) !=1):
 
-        
-        print("current", [i.team_to_str() for i in test.current_round])
-        print("contenders", [i.team_to_str() for i in test.contenders])
-        
+        print("Looped")
+   
         test.pairings()
-        
-        print("current", [i.team_to_str() for i in test.current_round])
-        print("contenders", [i.team_to_str() for i in test.contenders])
 
         test.teams.reverse()
-        for i in test.teams:
-            test.update( i , (3, 2))
-
-##        test.update(test.get_team("Team1"),'3-2')
-##        test.update(test.get_team("Team2"),'3-2')
-##        test.update(test.get_team("Team3"),'3-2')
-##        test.update(test.get_team("Team4"),'3-2')
-##        test.update(test.get_team("Team5"),'3-2')
-##        test.update(test.get_team("Team6"),'3-2')
-
+        teams = len(test.current_round)
         
-        print("current", [i.team_to_str() for i in test.current_round])
-        print("contenders", [i.team_to_str() for i in test.contenders])
-        
- 
-    
+        while(len(test.current_round) > teams):
+            winner = input("Please type the name of the team that won: ")
+            record = input("Please type the record of the matches (Ex: (3, 2)) ")
+            if (test.get_team(winner) not in test.current_round):
+                winner = input("Please type the name of the team that won: ")
+
+            test.update(winner, record)
+
+
     
